@@ -182,6 +182,14 @@ module PDK
     end
     module_function :find_valid_json_in
 
+    # Returns a list of the files in the module's root directory
+    # 
+    # @return [Array<String>] absolute paths for all files in the module's root directory
+    def files_in_module_root
+        Dir.glob(File.expand_path('./*', module_root))
+    end
+    module_function :files_in_module_root
+
     # Returns the targets' paths relative to the working directory
     #
     # @return [Array<String>] The absolute or path to the target

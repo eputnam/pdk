@@ -8,6 +8,10 @@ module PDK
         'README'
       end
 
+      def self.file_type
+        'file'
+      end
+
       def self.name
        'readme-exist'
       end

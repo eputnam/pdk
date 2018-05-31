@@ -5,30 +5,14 @@ require 'pdk/util'
 
 module PDK
   module Validate
-    class FileExist < BaseValidator
-      def self.filename
-        'readme'
-      end
-
-      def self.file_type
-        'exist'
-      end
-
-      def self.file_extensions
-        '(\.md|\.mkdwn|\.mkdn|\.markdown)'
-      end
+    class ExamplesExist < BaseValidator
 
       def self.name
-       'file-validator'
+       'examples-exist'
       end
 
-      def self.spinner_text(targets = [])
-        found = unless targets.empty?
-                  "(#{targets[0]})"
-                else
-                  ""
-                end
-        _("%{filename} exists? %{found} ") % { filename: filename, found: found }
+      def self.spinner_text(_targets = [])
+        _("Checking for example manifests.")
       end
 
       def self.create_spinner(targets = [], options = {})
@@ -55,9 +39,10 @@ module PDK
       def self.invoke(report, options = {})
         targets, skipped, invalid = parse_targets(options)
 
-        regex = %r{^(?:.*\/)?#{filename}#{file_extensions}?$}i
+        regex = %r{^(?:.*\/)?.*.pp$}i
+        examples_dir = File.expand_path('examples/*', PDK::Util.module_root)
 
-        targets = PDK::Util.files_in_module_root.select { |file| file if file.match(regex) }
+        targets = Dir.glob(examples_dir).select { |file| file if file.match(regex) }
 
         process_skipped(report, skipped)
         process_invalid(report, invalid)
@@ -70,20 +55,20 @@ module PDK
         # here and restore the C extension at the end of the method (if it was
         # being used).
 
-        if !targets.empty? && File.send((file_type + '?').to_sym,targets[0])
+        if !targets.empty?
           report.add_event(
-            file:     targets[0],
+            file:     examples_dir,
             source:   name,
             state:    :passed,
             severity: 'ok',
           )
         else
           report.add_event(
-            file: filename,
+            file: examples_dir,
             source: name,
             state: :failure,
             severity: 'error',
-            message: _("Could not find #{filename} with #{regex.to_s}"),
+            message: _("No examples found in examples/"),
           )
           return_val = 1
         end

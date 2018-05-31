@@ -8,6 +8,10 @@ module PDK
         'CHANGELOG'
       end
 
+      def self.file_type
+        'file'
+      end
+
       def self.name
        'changelog-exist'
       end

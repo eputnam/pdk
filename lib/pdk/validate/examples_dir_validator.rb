@@ -2,6 +2,7 @@ require 'pdk'
 require 'pdk/cli/exec'
 require 'pdk/validate/base_validator'
 require 'pdk/validate/examples_dir/examples_dir_exist'
+require 'pdk/validate/examples_dir/examples_exist'
 
 module PDK
   module Validate
@@ -11,7 +12,7 @@ module PDK
       end
 
       def self.examples_validators
-       [ExamplesExist]
+       [ExamplesDirExist, ExamplesExist]
       end
 
       def self.invoke(report, options = {})

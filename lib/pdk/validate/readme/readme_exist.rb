@@ -1,5 +1,5 @@
 require 'pdk'
-require 'pdk/validate/file/file_exist'
+require 'pdk/validate/file_exist'
 
 module PDK
   module Validate

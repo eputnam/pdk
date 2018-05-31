@@ -11,7 +11,7 @@ module PDK
       end
 
       def self.file_extensions
-        '(md|mkdwn|mkdn|markdown)'
+        '(\.md|\.mkdwn|\.mkdn|\.markdown)'
       end
 
       def self.name
@@ -46,7 +46,7 @@ module PDK
       def self.invoke(report, options = {})
         targets, skipped, invalid = parse_targets(options)
 
-        regex = %r{^(?:.*\/)?#{filename}\.#{file_extensions}$}i
+        regex = %r{^(?:.*\/)?#{filename}#{file_extensions}?$}i
 
         targets = PDK::Util.files_in_module_root.select { |file| file if file.match(regex) }
 
@@ -61,7 +61,7 @@ module PDK
         # here and restore the C extension at the end of the method (if it was
         # being used).
 
-        if !targets.empty? && File.file?(targets[0])
+        if !targets.empty? && File.exist?(targets[0])
           report.add_event(
             file:     targets[0],
             source:   name,

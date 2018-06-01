@@ -65,6 +65,9 @@ RSpec.shared_context :validators do
       PDK::Validate::MetadataValidator,
       PDK::Validate::PuppetValidator,
       PDK::Validate::RubyValidator,
+      PDK::Validate::ChangelogValidator,
+      PDK::Validate::ReadmeValidator,
+      PDK::Validate::ExamplesDirValidator,
     ]
   end
 end
